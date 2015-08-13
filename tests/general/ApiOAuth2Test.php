@@ -18,9 +18,6 @@
  * under the License.
  */
 
-require_once "BaseTest.php";
-require_once realpath(dirname(__FILE__) . '/../../autoload.php');
-
 class ApiOAuth2Test extends BaseTest
 {
 
@@ -189,7 +186,7 @@ class ApiOAuth2Test extends BaseTest
     );
     $this->assertTrue(strlen($ticket->getUserId()) > 0);
 
-    // TODO(ianbarber): Need to be smart about testing/disabling the
+    // TODO: Need to be smart about testing/disabling the
     // caching for this test to make sense. Not sure how to do that
     // at the moment.
     $client = $this->getClient();

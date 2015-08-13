@@ -18,9 +18,6 @@
  * under the License.
  */
 
-require_once 'BaseTest.php';
-require_once realpath(dirname(__FILE__) . '/../../autoload.php');
-
 class ApiClientTest extends BaseTest
 {
   public function testClient()
@@ -35,6 +32,11 @@ class ApiClientTest extends BaseTest
 
     $client->setAccessToken(json_encode(array('access_token' => '1')));
     $this->assertEquals("{\"access_token\":\"1\"}", $client->getAccessToken());
+  }
+
+  public function testClientConstructor()
+  {
+    $this->assertInstanceOf('Google_Client', $this->getClient());
   }
 
   /**
@@ -131,6 +133,7 @@ class ApiClientTest extends BaseTest
     $_SERVER['SERVER_SOFTWARE'] = 'Google App Engine';
     $client = new Google_Client();
     $this->assertInstanceOf('Google_Cache_Memcache', $client->getCache());
+    $this->assertInstanceOf('Google_Io_Stream', $client->getIo());
     unset($_SERVER['SERVER_SOFTWARE']);
   }
 
@@ -185,5 +188,25 @@ class ApiClientTest extends BaseTest
         100,
         $config->getClassConfig('Google_IO_Abstract', 'request_timeout_seconds')
     );
+  }
+
+  public function testServiceAccountJson()
+  {
+    $client = new Google_Client();
+    $c = $client->loadServiceAccountJson(
+        __DIR__ . "/testdata/service-12345.json",
+        array()
+    );
+    $this->assertInstanceOf('Google_Auth_AssertionCredentials', $c);
+  }
+
+  public function testRsaServiceAccountJson()
+  {
+    $client = new Google_Client();
+    $c = $client->loadServiceAccountJson(
+        __DIR__ . "/testdata/service-rsa-12345.json",
+        array()
+    );
+    $this->assertInstanceOf('Google_Auth_AssertionCredentials', $c);
   }
 }

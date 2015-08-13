@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-require_once realpath(dirname(__FILE__) . '/../../autoload.php');
-
 class PageSpeedTest extends BaseTest
 {
   public $service;
@@ -35,7 +33,7 @@ class PageSpeedTest extends BaseTest
     $this->assertArrayHasKey('id', $result);
     $this->assertArrayHasKey('responseCode', $result);
     $this->assertArrayHasKey('title', $result);
-    $this->assertArrayHasKey('score', $result);
+    $this->assertArrayHasKey('score', $result->ruleGroups['SPEED']);
     $this->assertInstanceOf('Google_Service_Pagespeedonline_ResultPageStats', $result->pageStats);
     $this->assertArrayHasKey('minor', $result['version']);
   }
